@@ -24,25 +24,55 @@
 
     <main>
         <section class="project-case">
-            <h2>Главный проект: Система автоматизации E-commerce</h2>
-            <p>Разработал с нуля внутреннюю платформу для автоматизации работы с товарами, которая заменила медленный и нестабильный парсинг через Selenium. **Результат: ускорение обработки данных в 12 раз (с 1 часа до 5 минут).**</p>
+    <h2>Главный проект: Система автоматизации E-commerce</h2>
+    <p>Разработал с нуля внутреннюю платформу для автоматизации работы с товарами, которая заменила медленный и нестабильный парсинг через Selenium. **Результат: ускорение обработки данных в 12 раз (с 1 часа до 5 минут).**</p>
 
-            <div class="project-visuals">
-                <!-- СДЕЛАЙ СКРИНШОТ СХЕМЫ И ВСТАВЬ СЮДА -->
-                <img src="architecture-scheme.png" alt="Архитектура проекта">
-            </div>
+    <!-- Карусель с диаграммами -->
+    <h3>Визуализация архитектуры:</h3>
+    <div class="carousel-container">
+        <img src="architecture-main.png" alt="Общая архитектура системы" class="carousel-img">
+        <img src="architecture-layers.png" alt="Слойная архитектура приложения" class="carousel-img">
+        <img src="architecture-jwt.png" alt="Жизненный цикл JWT токена" class="carousel-img">
+        <!-- Добавь сюда еще скриншоты, если нужно -->
+    </div>
+    <p class="carousel-hint">Кликни на картинку, чтобы увеличить.</p>
 
-            <h3>Стек технологий:</h3>
-            <div class="tech-stack">
-                <!-- Сюда можно добавить иконки технологий -->
-                <span>FastAPI</span> <span>Celery</span> <span>PostgreSQL</span> <span>Redis</span> <span>Docker</span> <span>Prometheus</span> <span>Grafana</span> <span>RabbitMQ</span> <span>SQLAlchemy</span>
-            </div>
+    <!-- Модальное окно для увеличенных изображений -->
+    <div id="imageModal" class="modal">
+        <span class="close-button">×</span>
+        <img class="modal-content" id="modalImage">
+    </div>
 
-            <div class="project-links">
-                <a href="https://github.com/fluffy-dev/AfterbuyBot" class="button" target="_blank">Смотреть код на GitHub</a> <!-- ЗАМЕНИ ССЫЛКУ -->
-                <a href="https://github.com/fluffy-dev/AfterbuyBot/blob/main/README.md" class="button-secondary" target="_blank">Читать тех. описание (README)</a> <!-- ЗАМЕНИ ССЫЛКУ -->
-            </div>
-        </section>
+    <h3>Ключевые архитектурные решения:</h3>
+    <div class="arch-decisions">
+        <div class="decision-card">
+            <h4>Слойная архитектура (Layered Architecture)</h4>
+            <p>Приложение четко разделено на слои: **Routers** (прием запросов), **Services** (бизнес-логика) и **Repositories** (доступ к данным). Это упрощает тестирование, поддержку и независимую замену компонентов.</p>
+        </div>
+        <div class="decision-card">
+            <h4>Асинхронность и фоновая обработка</h4>
+            <p>Для долгих задач (парсинг) используется **Celery** и **RabbitMQ**. API мгновенно отвечает клиенту, а вся тяжелая работа выполняется в фоне, что исключает таймауты и обеспечивает отзывчивость системы.</p>
+        </div>
+        <div class="decision-card">
+            <h4>Reverse-Engineering вместо парсинга HTML</h4>
+            <p>Вместо хрупкого парсинга верстки был проведен анализ и использовано внутреннее API платформы Afterbuy. Это обеспечило на порядок большую скорость и стабильность получения данных.</p>
+        </div>
+        <div class="decision-card">
+            <h4>Полная наблюдаемость (Observability)</h4>
+            <p>С помощью стека **OpenTelemetry, Prometheus, Grafana, Loki и Tempo** система предоставляет исчерпывающую информацию о своем состоянии: метрики производительности, распределенные трейсы запросов и структурированные логи.</p>
+        </div>
+    </div>
+
+    <h3>Стек технологий:</h3>
+    <div class="tech-stack">
+        <span>FastAPI</span> <span>Celery</span> <span>PostgreSQL</span> <span>Redis</span> <span>Docker</span> <span>RabbitMQ</span> <span>SQLAlchemy</span> <span>Alembic</span> <span>Pydantic</span> <span>AIOHTTP</span> <span>Prometheus</span> <span>Grafana</span>
+    </div>
+
+    <div class="project-links">
+        <a href="https://github.com/fluffy-dev/AfterbuyBot" class="button" target="_blank">Смотреть код на GitHub</a>
+        <a href="https://github.com/fluffy-dev/AfterbuyBot/blob/main/README.md" class="button-secondary" target="_blank">Читать полное тех. описание</a>
+    </div>
+</section>
 
         <section class="other-projects">
             <h2>Другие проекты</h2>
@@ -70,5 +100,37 @@
         </div>
     </footer>
 
+<script>
+    // Получаем элементы модального окна
+    var modal = document.getElementById("imageModal");
+    var modalImg = document.getElementById("modalImage");
+    var closeButton = document.querySelector(".close-button");
+
+    // Получаем все изображения в карусели
+    var carouselImages = document.querySelectorAll(".carousel-img");
+
+    // Добавляем обработчик клика на каждое изображение
+    carouselImages.forEach(function(img) {
+        img.onclick = function() {
+            modal.style.display = "block";
+            modalImg.src = this.src;
+        }
+    });
+
+    // Функция для закрытия модального окна
+    function closeModal() {
+        modal.style.display = "none";
+    }
+
+    // Закрываем по клику на крестик
+    closeButton.onclick = closeModal;
+
+    // Закрываем по клику вне изображения
+    modal.onclick = function(event) {
+        if (event.target === modal) {
+            closeModal();
+        }
+    }
+</script>
 </body>
 </html>
