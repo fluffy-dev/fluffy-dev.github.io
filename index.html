@@ -64,30 +64,6 @@
                             <li><strong>Rate Limiting:</strong> `slowapi` защищает сервис от чрезмерной нагрузки от клиентов.</li>
                         </ul>
                     </div>
-                     <div class="detail-card">
-                        <h5>Пример кода: Защищенный эндпоинт</h5>
-                        <pre><code class="language-python"># src/protection.py
-
-async def admin_user(auth_user: AuthUser):
-    if not auth_user.is_admin:
-        raise HTTPException(
-            status_code=403,
-            detail="You are not an admin"
-        )
-    return auth_user
-
-AdminUser = Annotated[UserDTO, Depends(admin_user)]
-
-# src/user/router.py
-@router.post("/", response_model=UserDTO)
-async def create_user(
-    entity: UserEntity,
-    service: IUserService,
-    admin: AdminUser  # <-- Доступ только для админов
-):
-    return await service.create(entity)
-</code></pre>
-                    </div>
                 </div>
             </div>
             <div class="project-links">
@@ -126,18 +102,6 @@ async def create_user(
                             <li><strong>Batching операций:</strong> Клиент не отправляет каждую операцию (нажатие клавиши) немедленно, а собирает их в пачки и отправляет каждые 100 мс.</li>
                             <li><strong>Zero-copy parsing:</strong> На сервере, где это возможно, используются техники zero-copy для парсинга бинарных сообщений.</li>
                         </ul>
-                    </div>
-                     <div class="detail-card">
-                        <h5>Пример кода: Генерация ID</h5>
-                        <pre><code class="language-python">
-def generate_id_between(pos1, pos2):
-    # Упрощенная логика генерации
-    # фракционного индекса между двумя позициями
-    new_pos = []
-    # ... сложная логика сравнения и
-    # генерации нового идентификатора
-    return new_pos
-                        </code></pre>
                     </div>
                 </div>
             </div>
